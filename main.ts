@@ -25,7 +25,7 @@ input.onButtonPressed(Button.A, function () {
     }
     if (Game_Selected != 0 && !(Level_Playing)) {
         Game_Selected += -1
-        basic.showString("" + (Games[Game_Stages + 1]))
+        basic.showString("" + (Games[Game_Stages]))
     }
 })
 function Compare (Guess: number, Answer: number) {
@@ -118,9 +118,9 @@ input.onButtonPressed(Button.B, function () {
     if (Game_Selected == 1 && Level_Playing) {
         Bird.change(LedSpriteProperty.Y, -1)
     }
-    if (Game_Selected != Games.length - 1 && !(Level_Playing)) {
+    if (Game_Selected != Games.length && !(Level_Playing)) {
         Game_Selected += 1
-        basic.showString("" + (Games[Game_Stages + 1]))
+        basic.showString("" + (Games[Game_Stages]))
     }
 })
 function Walls () {
