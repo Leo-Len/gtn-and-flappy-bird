@@ -57,9 +57,16 @@ function Compare (Guess: number, Answer: number) {
         return true
     }
 }
+function Passed () {
+    if (GameOver == false) {
+        Score += 1
+        Speed += Speed_Subtract
+        Speed_Subtract += -0.25
+        Random = randint(0, 4)
+        Walls()
+    }
+}
 function Flappy_Bird_Start () {
-    led.stopAnimation()
-    basic.clearScreen()
     Level_Playing = true
     Speed_Subtract = -1
     Speed = 500
@@ -96,6 +103,8 @@ input.onButtonPressed(Button.AB, function () {
         }
     }
     if (!(Level_Playing)) {
+        basic.clearScreen()
+        led.stopAnimation()
         if (Game_Selected == 0) {
             GTN_Start()
         }
@@ -140,6 +149,10 @@ function Walls () {
             Wall3.change(LedSpriteProperty.X, -1)
             Wall4.change(LedSpriteProperty.X, -1)
             if (Bird.isTouching(Wall1) || (Bird.isTouching(Wall2) || (Bird.isTouching(Wall3) || Bird.isTouching(Wall4)))) {
+                Wall1.delete()
+                Wall2.delete()
+                Wall3.delete()
+                Wall4.delete()
                 GameOver = true
             }
         }
@@ -147,6 +160,7 @@ function Walls () {
         Wall2.delete()
         Wall3.delete()
         Wall4.delete()
+        Passed()
     } else if (Random == 1) {
         Wall4 = game.createSprite(4, 4)
         Wall3 = game.createSprite(4, 3)
@@ -159,6 +173,10 @@ function Walls () {
             Wall3.change(LedSpriteProperty.X, -1)
             Wall4.change(LedSpriteProperty.X, -1)
             if (Bird.isTouching(Wall) || (Bird.isTouching(Wall2) || (Bird.isTouching(Wall3) || Bird.isTouching(Wall4)))) {
+                Wall4.delete()
+                Wall3.delete()
+                Wall2.delete()
+                Wall.delete()
                 GameOver = true
             }
         }
@@ -166,6 +184,7 @@ function Walls () {
         Wall2.delete()
         Wall3.delete()
         Wall4.delete()
+        Passed()
     } else if (Random == 2) {
         Wall4 = game.createSprite(4, 4)
         Wall3 = game.createSprite(4, 3)
@@ -178,6 +197,10 @@ function Walls () {
             Wall3.change(LedSpriteProperty.X, -1)
             Wall4.change(LedSpriteProperty.X, -1)
             if (Bird.isTouching(Wall) || (Bird.isTouching(Wall1) || (Bird.isTouching(Wall3) || Bird.isTouching(Wall4)))) {
+                Wall.delete()
+                Wall1.delete()
+                Wall3.delete()
+                Wall4.delete()
                 GameOver = true
             }
         }
@@ -185,6 +208,7 @@ function Walls () {
         Wall1.delete()
         Wall3.delete()
         Wall4.delete()
+        Passed()
     } else if (Random == 3) {
         Wall4 = game.createSprite(4, 4)
         Wall2 = game.createSprite(4, 2)
@@ -197,6 +221,10 @@ function Walls () {
             Wall2.change(LedSpriteProperty.X, -1)
             Wall4.change(LedSpriteProperty.X, -1)
             if (Bird.isTouching(Wall) || (Bird.isTouching(Wall1) || (Bird.isTouching(Wall2) || Bird.isTouching(Wall4)))) {
+                Wall4.delete()
+                Wall2.delete()
+                Wall1.delete()
+                Wall.delete()
                 GameOver = true
             }
         }
@@ -204,6 +232,7 @@ function Walls () {
         Wall1.delete()
         Wall2.delete()
         Wall4.delete()
+        Passed()
     } else {
         Wall3 = game.createSprite(4, 3)
         Wall2 = game.createSprite(4, 2)
@@ -216,6 +245,10 @@ function Walls () {
             Wall2.change(LedSpriteProperty.X, -1)
             Wall3.change(LedSpriteProperty.X, -1)
             if (Bird.isTouching(Wall) || (Bird.isTouching(Wall1) || (Bird.isTouching(Wall2) || Bird.isTouching(Wall3)))) {
+                Wall3.delete()
+                Wall2.delete()
+                Wall1.delete()
+                Wall.delete()
                 GameOver = true
             }
         }
@@ -223,6 +256,7 @@ function Walls () {
         Wall1.delete()
         Wall2.delete()
         Wall3.delete()
+        Passed()
     }
 }
 let Wall: game.LedSprite = null
@@ -232,10 +266,10 @@ let Wall3: game.LedSprite = null
 let Wall4: game.LedSprite = null
 let Answer = 0
 let Random = 0
-let GameOver = false
-let Score = 0
-let Speed = 0
 let Speed_Subtract = 0
+let Speed = 0
+let Score = 0
+let GameOver = false
 let Bird: game.LedSprite = null
 let Guess = 0
 let Strikes = 0
@@ -253,14 +287,9 @@ basic.forever(function () {
     if (Game_Selected == 1 && Level_Playing) {
         if (GameOver == false) {
             Random = randint(0, 4)
-            if (Wall.isDeleted()) {
-                Score += 1
-                Walls()
-                Speed += Speed_Subtract
-                Speed_Subtract += -0.5
-            }
         } else {
             basic.clearScreen()
+            led.stopAnimation()
             Bird.delete()
             basic.showString("Game Over!")
             basic.showString("Score: " + Score)
