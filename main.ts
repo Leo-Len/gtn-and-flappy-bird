@@ -243,7 +243,7 @@ let Games: string[] = []
 let Game_Selected = 0
 Game_Selected = 0
 Games = ["Guess The Number", "Flappy Bird"]
-basic.showString("" + (Games[Game_Stages + 1]))
+basic.showString("" + (Games[Game_Stages]))
 basic.forever(function () {
     if (Game_Selected == 1 && Level_Playing) {
         // We Don't Belong!
