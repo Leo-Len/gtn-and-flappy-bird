@@ -118,7 +118,7 @@ input.onButtonPressed(Button.B, function () {
     if (Game_Selected == 1 && Level_Playing) {
         Bird.change(LedSpriteProperty.Y, -1)
     }
-    if (Game_Selected != Games.length && !(Level_Playing)) {
+    if (Game_Selected != 2 && !(Level_Playing)) {
         Game_Selected += 1
         basic.showString("" + (Games[Game_Stages]))
     }
