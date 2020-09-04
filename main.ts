@@ -1,4 +1,5 @@
 function GTN_Start () {
+    Level_Playing = true
     Game_Stages = 0
     Difficulty = 10
     Score_GTN = 0
@@ -21,11 +22,11 @@ input.onButtonPressed(Button.A, function () {
         }
     }
     if (Game_Selected == 1 && Level_Playing) {
-        Bird.change(LedSpriteProperty.Y, 1)
+        Bird.change(LedSpriteProperty.Y, -1)
     }
     if (Game_Selected != 0 && !(Level_Playing)) {
         Game_Selected += -1
-        basic.showString("" + (Games[Game_Stages]))
+        basic.showString("" + (Games[Game_Selected]))
     }
 })
 function Compare (Guess: number, Answer: number) {
@@ -57,6 +58,9 @@ function Compare (Guess: number, Answer: number) {
     }
 }
 function Flappy_Bird_Start () {
+    led.stopAnimation()
+    basic.clearScreen()
+    Level_Playing = true
     Speed_Subtract = -1
     Speed = 500
     Score = 0
@@ -116,11 +120,11 @@ input.onButtonPressed(Button.B, function () {
         }
     }
     if (Game_Selected == 1 && Level_Playing) {
-        Bird.change(LedSpriteProperty.Y, -1)
+        Bird.change(LedSpriteProperty.Y, 1)
     }
-    if (Game_Selected != 2 && !(Level_Playing)) {
+    if (Game_Selected != Games.length - 1 && !(Level_Playing)) {
         Game_Selected += 1
-        basic.showString("" + (Games[Game_Stages]))
+        basic.showString("" + (Games[Game_Selected]))
     }
 })
 function Walls () {
@@ -234,22 +238,19 @@ let Speed = 0
 let Speed_Subtract = 0
 let Bird: game.LedSprite = null
 let Guess = 0
-let Level_Playing = 0
 let Strikes = 0
 let Score_GTN = 0
 let Difficulty = 0
 let Game_Stages = 0
 let Games: string[] = []
 let Game_Selected = 0
+let Level_Playing = false
+Level_Playing = false
 Game_Selected = 0
-Games = ["Guess The Number", "Flappy Bird"]
-basic.showString("" + (Games[Game_Stages]))
+Games = ["GTN", "Flappy Bird"]
+basic.showString("" + (Games[Game_Selected]))
 basic.forever(function () {
     if (Game_Selected == 1 && Level_Playing) {
-        // We Don't Belong!
-        if (GameOver) {
-            Flappy_Bird_Start()
-        }
         if (GameOver == false) {
             Random = randint(0, 4)
             if (Wall.isDeleted()) {
@@ -261,10 +262,11 @@ basic.forever(function () {
         } else {
             basic.clearScreen()
             Bird.delete()
-            while (true) {
-                basic.showString("Game Over!")
-                basic.showString("Score: " + Score)
-            }
+            basic.showString("Game Over!")
+            basic.showString("Score: " + Score)
+            basic.pause(5000)
+            basic.clearScreen()
+            Flappy_Bird_Start()
         }
     }
 })
